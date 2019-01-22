@@ -1,0 +1,36 @@
+Should we have button assignments recorded?
+Implement speed sensitivity with slider?
+Use trigger turbo?
+
+Joystick:
+	x-axis	not used
+	y-axis	forward and back
+	z-axis	turn
+	slider	speed sensitivity
+
+	buttons
+		1-trigger	not used
+		2-thumb	turbo mode
+		3-top left	not used
+
+Solenoid VI not operational:
+
+X-Box Controller
+	buttons
+		1-A		get cargo ball
+		2-B		release hatch
+		3-X		get hatch
+		4-Y yellow	spit out cargo ball
+		5-top left		arm down
+		6-top right		arm up
+		POV-up		elevator up
+		POV-down	elevator down
+		POV-left
+		POV-right
+
+
+
+
+
+		
+
