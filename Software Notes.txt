@@ -36,6 +36,6 @@ CAN Devices
 
 
 
-
+Add killswitch/timeout to elevator. Document Constant, shared variables.
 		
 

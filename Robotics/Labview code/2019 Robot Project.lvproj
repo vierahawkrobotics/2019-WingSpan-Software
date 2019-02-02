@@ -96,6 +96,9 @@ AddOutputFilter chunkFilter
 		<Property Name="target.WebServer.ViAccess" Type="Str">+*</Property>
 		<Property Name="target.webservices.SecurityAPIKey" Type="Str">PqVr/ifkAQh+lVrdPIykXlFvg12GhhQFR8H9cUhphgg=:pTe9HRlQuMfJxAG6QCGq7UvoUpJzAzWGKy5SbZ+roSU=</Property>
 		<Property Name="target.webservices.ValidTimestampWindow" Type="Int">15</Property>
+		<Item Name="General VIs" Type="Folder">
+			<Item Name="Convert Boolean to Floor.vi" Type="VI" URL="../Convert Boolean to Floor.vi"/>
+		</Item>
 		<Item Name="lib" Type="Folder" URL="/&lt;vilib&gt;/addons/FRC_ThirdParty/lib">
 			<Property Name="NI.DISK" Type="Bool">true</Property>
 		</Item>
@@ -114,7 +117,9 @@ AddOutputFilter chunkFilter
 			<Item Name="Test.vi" Type="VI" URL="../Test.vi"/>
 			<Item Name="Vision Processing.vi" Type="VI" URL="../Vision Processing.vi"/>
 		</Item>
-		<Item Name="Global 1.vi" Type="VI" URL="../Global 1.vi"/>
+		<Item Name="Variables" Type="Folder">
+			<Item Name="Global 1.vi" Type="VI" URL="../Global 1.vi"/>
+		</Item>
 		<Item Name="Robot Main.vi" Type="VI" URL="../Robot Main.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
