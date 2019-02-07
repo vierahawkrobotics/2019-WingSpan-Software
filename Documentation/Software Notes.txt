@@ -1,0 +1,75 @@
+uld we have button assignments recorded?
+Implement speed sensitivity with slider?
+Use trigger turbo?
+
+Joystick 0:
+	x-axis	not used
+	y-axis	forward and back
+	z-axis	turn
+	slider	speed sensitivity
+
+	buttons
+		1-trigger		not used
+		2-thumb		turbo mode
+		3-top left		level 1 elevator
+		4-top right		level 2 elevator
+		5-top left		bottom level elevator
+		6-top right		top level elevator
+
+Joystick 1 (X-Box Controller):
+
+	buttons
+		1-A		get cargo ball (hold to activate, both A & Y off)
+		2-B		release hatch
+		3-X		get hatch
+		4-Y yellow	spit out cargo ball (hold to activate, both A & Y off)
+		5-top left front	elevator up (was arm down)
+		6-top right front	elevator down (was arm up)
+	numerics
+		POV-up		not used
+		POV-down	not used
+		POV-left		not used
+		POV-right		not used
+
+PCM Devices
+		0	 		Solenoid 0 (Solenoid A)
+		1			Solenoid 1 (Solenoid B)
+
+CAN Devices
+	
+	0	
+	8	Victor SPX	left elevator motor
+	9	Victor SPX	right elevator motor (follower)
+
+	1	Victor SPX	Redline	Cargo Left Arm motor
+	2	Victor SPX	Redline	Cargo Right Arm motor
+			
+
+PWM Devices
+	
+	0	Talon SRX			front left drive motor
+	1	Talon SRX			back left drive motor (follower)
+	2	Talon SRX			front right drive motor
+	3	Talon SRX			back left drive motor (follower)
+	4	Talon SRX			left slide motor
+	5	Talon SRX			right slide motor (follower)
+	6	Talon SRX	Snowblower	hatch arm raiser
+	7	Talon SRX	Redline		hatch arm turner
+	8	------			
+	9	------
+
+DIO Devices
+		0
+		1
+		2
+		3
+		4
+		5
+		6			floor level sensor
+		7			level 1 sensor
+		8			level 2 sensor
+		9			top level sensor
+
+
+		
+
