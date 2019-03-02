@@ -1,0 +1,2 @@
+This software utilizes CAN motors, which are no longer supported in WPILib and can no longer be configured through the RoboRIO web interface. 
+As a result, this program requires the the Phoenix framework to be installed to open the project.
