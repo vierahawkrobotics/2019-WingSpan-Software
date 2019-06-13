@@ -35,8 +35,10 @@ public class Robot extends IterativeRobot {
   Talon leftFollower=new Talon(1);
   Talon rightMotor=new Talon(2);
   Talon rightFollower=new Talon(3);
-  SpeedControllerGroup leftSide=new SpeedControllerGroup(leftMotor,leftFollower);
-  SpeedControllerGroup rigthSide=new SpeedControllerGroup(rightMotor,rightFollower);
+  Talon slideMain=new Talon(4);
+  Talon slideFollow=new Talon(5);
+  SpeedControllerGroup leftSide;
+  SpeedControllerGroup rightSide;
   DifferentialDrive drive1=new DifferentialDrive(leftSide, rigthSide);
   DigitalInput bottomLevel=new DigitalInput(6);
   double slowDrivePower=.4;
@@ -53,6 +55,10 @@ public class Robot extends IterativeRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    leftMotor.setInverted(true);
+    leftFollower.setInverted(true);
+    leftSide=new SpeedControllerGroup(leftMotor,leftFollower);
+    rightSide=new SpeedControllerGroup(rightMotor,rightFollower);
   }
 
   /**
@@ -124,7 +130,18 @@ public class Robot extends IterativeRobot {
         Elevator2.set(ControlMode.PercentOutput, joystick1.getRawAxis(6)*elevatorPower);
       }
     }
-
+    if(joystick1.getRawButton(11)==true) {
+      slideMain.set(1);
+      slideFollow.set(1);
+    }
+    else if(joystick1.getRawButton(12)==true) {
+      slideMain.set(-1);
+      slideFollow.set(-1);
+    }
+    else{
+      slideMain.set(0);
+      slideFollow.set(0); 
+    }
   }
   /**
    * This function is called periodically during test mode.
