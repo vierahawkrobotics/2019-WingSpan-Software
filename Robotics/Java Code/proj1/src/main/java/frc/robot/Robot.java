@@ -4,43 +4,47 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 package frc.robot;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import javax.swing.event.TreeExpansionListener;
-
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.*;
-/**
+/*
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
- *TreeExpansionListenerou must also update the build.gradle file in the
+ *TreeExpansionListener you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  //Declares joystick variables
   private Joystick joystick0=new Joystick(0);
   private Joystick joystick1=new Joystick(1);
+  //Declares elevator motors
   VictorSPX Elevator1=new VictorSPX(3);
   VictorSPX Elevator2=new VictorSPX(4);
+  //Declares drive motors
   Talon leftMotor=new Talon(0);
   Talon leftFollower=new Talon(1);
   Talon rightMotor=new Talon(2);
   Talon rightFollower=new Talon(3);
+  //Declares slide drive motors
   Talon slideMain=new Talon(4);
   Talon slideFollow=new Talon(5);
+  //Declares controller groups
   SpeedControllerGroup leftSide;
   SpeedControllerGroup rightSide;
-  DifferentialDrive drive1=new DifferentialDrive(leftSide, rigthSide);
+  //Creates drive variable
+  DifferentialDrive drive1;
+  //Declares the elevator limit switch
   DigitalInput bottomLevel=new DigitalInput(6);
+  //Declares power variables
   double slowDrivePower=.4;
   double turboPower=1/slowDrivePower;
   double elevatorPower=.49;
@@ -55,12 +59,10 @@ public class Robot extends IterativeRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-    leftMotor.setInverted(true);
-    leftFollower.setInverted(true);
     leftSide=new SpeedControllerGroup(leftMotor,leftFollower);
     rightSide=new SpeedControllerGroup(rightMotor,rightFollower);
+    drive1=new DifferentialDrive(leftSide, rightSide);
   }
-
   /**
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,
@@ -72,7 +74,6 @@ public class Robot extends IterativeRobot {
   @Override
   public void robotPeriodic() {
   }
-
   /**
    * This autonomous (along with the chooser code above) shows how to select
    * between different autonomous modes using the dashboard. The sendable
@@ -91,7 +92,6 @@ public class Robot extends IterativeRobot {
     // defaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
   }
-
   /**
    * This function is called periodically during autonomous.
    */
@@ -99,49 +99,54 @@ public class Robot extends IterativeRobot {
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
       case kCustomAuto:
-        // Put custom auto code here
+        teleopPeriodic();
         break;
       case kDefaultAuto:
       default:
-        // Put default auto code here
+      teleopPeriodic();
         break;
     }
   }
-
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
-    double rotateSpeed=0;
-    double forwardSpeed=joystick0.getRawAxis(1)*slowDrivePower;
+    //Sets the speed at which the robot is turning from both turning the joystick and the sensitivity slider
+    double rotateSpeed=joystick0.getRawAxis(2)*(((joystick0.getRawAxis(3)-1)*-.125)+.5);
+    //Sets the forward speed of the robot
+    double forwardSpeed=joystick0.getRawAxis(1)*slowDrivePower*-1;
+    //If a button is pressed it allows the robot to move faster
     if(joystick0.getRawButton(1)==true){
       forwardSpeed=forwardSpeed*turboPower;
     }
-    rotateSpeed=joystick0.getRawAxis(2)*(((joystick0.getRawAxis(1)-1)*-.125)+.5);
+    //Sets the robot to drive at the given speeds
     drive1.arcadeDrive(forwardSpeed,rotateSpeed);
-    if(joystick1.getRawAxis(1)>0||(joystick1.getRawAxis(0)<1&&bottomLevel.get()!=true)){
+    //Sets the elevator speed
+    if(-joystick1.getRawAxis(1)>0||(-joystick1.getRawAxis(0)<1&&bottomLevel.get()!=true)){
       if(joystick1.getRawButton(7)==true){
-        Elevator1.set(ControlMode.PercentOutput, joystick1.getRawAxis(6)*elevatorPower*elevatorSlowPower);
-        Elevator2.set(ControlMode.PercentOutput, joystick1.getRawAxis(6)*elevatorPower*elevatorSlowPower);
+        Elevator1.set(ControlMode.PercentOutput, -joystick1.getRawAxis(1)*elevatorPower*elevatorSlowPower);
+        Elevator2.set(ControlMode.PercentOutput, -joystick1.getRawAxis(1)*elevatorPower*elevatorSlowPower);
       }
       else{
-        Elevator1.set(ControlMode.PercentOutput, joystick1.getRawAxis(6)*elevatorPower);
-        Elevator2.set(ControlMode.PercentOutput, joystick1.getRawAxis(6)*elevatorPower);
+        Elevator1.set(ControlMode.PercentOutput, -joystick1.getRawAxis(1)*elevatorPower);
+        Elevator2.set(ControlMode.PercentOutput, -joystick1.getRawAxis(1)*elevatorPower);
       }
     }
-    if(joystick1.getRawButton(11)==true) {
-      slideMain.set(1);
-      slideFollow.set(1);
+    //Controls slide drive
+    if(joystick0.getRawButton(11)==true) {
+      slideMain.set(.6);
+      slideFollow.set(.6);
     }
-    else if(joystick1.getRawButton(12)==true) {
-      slideMain.set(-1);
-      slideFollow.set(-1);
+    else if(joystick0.getRawButton(12)==true) {
+      slideMain.set(-.6);
+      slideFollow.set(-.6);
     }
     else{
       slideMain.set(0);
       slideFollow.set(0); 
     }
+    SmartDashboard.putBoolean("DB/Led 3",bottomLevel.get());
   }
   /**
    * This function is called periodically during test mode.
