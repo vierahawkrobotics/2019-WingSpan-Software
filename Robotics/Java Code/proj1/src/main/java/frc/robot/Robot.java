@@ -123,14 +123,14 @@ public class Robot extends TimedRobot {
     //Sets the robot to drive at the given speeds
     drive1.arcadeDrive(forwardSpeed,rotateSpeed);
     //Sets the elevator speed
-    if(-joystick1.getRawAxis(1)>0||(-joystick1.getRawAxis(0)<1&&bottomLevel.get()!=true)){
+    if(joystick1.getRawAxis(1)>0||(-joystick1.getRawAxis(0)<1&&bottomLevel.get()==true)){
       if(joystick1.getRawButton(7)==true){
-        Elevator1.set(ControlMode.PercentOutput, -joystick1.getRawAxis(1)*elevatorPower*elevatorSlowPower);
-        Elevator2.set(ControlMode.PercentOutput, -joystick1.getRawAxis(1)*elevatorPower*elevatorSlowPower);
+        Elevator1.set(ControlMode.PercentOutput, joystick1.getRawAxis(1)*elevatorPower*elevatorSlowPower);
+        Elevator2.set(ControlMode.PercentOutput, joystick1.getRawAxis(1)*elevatorPower*elevatorSlowPower);
       }
       else{
-        Elevator1.set(ControlMode.PercentOutput, -joystick1.getRawAxis(1)*elevatorPower);
-        Elevator2.set(ControlMode.PercentOutput, -joystick1.getRawAxis(1)*elevatorPower);
+        Elevator1.set(ControlMode.PercentOutput, joystick1.getRawAxis(1)*elevatorPower);
+        Elevator2.set(ControlMode.PercentOutput, joystick1.getRawAxis(1)*elevatorPower);
       }
     }
     //Controls slide drive
