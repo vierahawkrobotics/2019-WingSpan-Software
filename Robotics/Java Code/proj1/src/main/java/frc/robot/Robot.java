@@ -26,6 +26,8 @@ public class Robot extends TimedRobot {
   //Declares joystick variables
   private Joystick joystick0=new Joystick(0);
   private Joystick joystick1=new Joystick(1);
+  //Declares cargo motors
+  VictorSPX cargoRoller=new VictorSPX(2);
   //Declares elevator motors
   VictorSPX Elevator1=new VictorSPX(3);
   VictorSPX Elevator2=new VictorSPX(4);
@@ -49,7 +51,8 @@ public class Robot extends TimedRobot {
   double turboPower=1/slowDrivePower;
   double elevatorPower=.49;
   double elevatorSlowPower=.5;
-  double slidePower=.4;
+  double slidePower=.6;
+  double cargoArmPower=.4;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -124,7 +127,7 @@ public class Robot extends TimedRobot {
     drive1.arcadeDrive(forwardSpeed,rotateSpeed);
     //Sets the elevator speed
     if(joystick1.getRawAxis(1)>0||(-joystick1.getRawAxis(0)<1&&bottomLevel.get()==true)){
-      if(joystick1.getRawButton(7)==true){
+      if(joystick1.getRawButton(8)==true){
         Elevator1.set(ControlMode.PercentOutput, joystick1.getRawAxis(1)*elevatorPower*elevatorSlowPower);
         Elevator2.set(ControlMode.PercentOutput, joystick1.getRawAxis(1)*elevatorPower*elevatorSlowPower);
       }
@@ -135,18 +138,22 @@ public class Robot extends TimedRobot {
     }
     //Controls slide drive
     if(joystick0.getRawButton(11)==true) {
-      slideMain.set(.6);
-      slideFollow.set(.6);
+      slideMain.set(slidePower);
+      slideFollow.set(slidePower);
     }
     else if(joystick0.getRawButton(12)==true) {
-      slideMain.set(-.6);
-      slideFollow.set(-.6);
+      slideMain.set(-slidePower);
+      slideFollow.set(-slidePower);
     }
     else{
       slideMain.set(0);
       slideFollow.set(0); 
     }
     SmartDashboard.putBoolean("DB/Led 3",bottomLevel.get());
+    //Controls cargo roller
+    if(joystick1.getRawButton(1)==true){
+      cargoRoller.set(ControlMode.PercentOutput, 1);
+    }
   }
   /**
    * This function is called periodically during test mode.
